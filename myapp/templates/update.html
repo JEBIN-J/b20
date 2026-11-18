@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h1>Update page</h1>
+
+            <label for="">Profile Image</label>
+            {% if data.profile %}
+            <img style="width: 100px; height: 80px;" src="{{ data.profile.url }}" alt="">
+            <input type="file" name="profile" value="{{ data.profile.url }}"> <br>
+            {% endif %}
+            <label for="full_name">full Name</label>
+            <input type="text" name="full_name" value="{{ data.full_name }}" id="full_name" placeholder="Enter your name"><br> 
+            
+            <label for="">Username</label>
+            <input type="text" value="{{ data.username }}" name="username"><br>
+
+            <label for="">Phone Number</label>
+            <input type="number" value="{{ data.number }}" name="number"><br>
+
+            <label for="">Gender</label>
+            <input type="radio" name="gender" value="Male" {% if data.gender == 'Male' %} checked {% endif %}>Male
+            <input type="radio" name="gender" value="Female" {% if data.gender == 'Female' %} checked {% endif %}>Female <br>
+
+            <label for="">DOB</label>
+            <input type="Date" name="dob" value="{{ data.dob|date:'Y-m-d' }}"><br>
+
+            <label for="">Email</label>
+            <input type="text" name="email" value="{{ data.email }}"><br>
+
+            <label for="">Password</label>
+            <input type="password" name="password" ><br>
+
+            <label for="">Confirm Password</label>
+            <input type="confirm_password" ><br>
+
+            <button type="Submit">Register</button>
+       </form> 
+    </div>
+</body>
+</html>

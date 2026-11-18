@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    table,tr,th,td{
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+</style>
+<body>
+    <h1>Welcome to dashboard</h1>
+    <!-- {% if data %}
+        {% for i in data %}  
+            <p>{{ i }}</p>
+        {% endfor %}
+    {% endif %} -->
+    <table>
+        <tr>
+            <th>Profile Image</th>
+            <th>full Name</th>
+            <th>Username </th>
+            <th>Phone Number</th>
+            <th>Gender</th>
+            <th>DOB</th>
+            <th>Email</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+        {% if mydata %}
+        {% for i in mydata %}
+        <tr>
+            <td><img style="width: 100px; height: 80px;" src="{{ i.profile.url }}" alt="image"></td>
+            <td>{{ i.full_name }}</td>
+            <td>{{ i.username }}</td>
+            <td>{{ i.number }}</td>
+            <td>{{ i.gender }}</td>
+            <td>{{ i.dob }}</td>
+            <td>{{ i.email }}</td>
+            <td><a href="{% url 'update' i.id %}">Update</a></td>
+            <td><a href="{% url 'delete' i.id %}">Delete</a></td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+
+    </table><br><br><br>
+
+    <table>
+        <tr>
+            <th>Full Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+        {% if form %}
+            {% for i in form %}
+                <tr>
+                    <td>{{ i.full_name }}</td>
+                    <td>{{ i.username }}</td>
+                    <td>{{ i.email }}</td>
+                    <td><a href="{% url 'update_list' i.id %}">Update</a></td>
+                    <td><a href="">Delete</a></td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </table>
+
+</body>
+</html>

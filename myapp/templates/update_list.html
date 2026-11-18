@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Register View</h1>
+    <p>{{ form.full_name.errors }}</p>
+    <p>{{ form.username.errors }}</p>
+    <p>{{ form.email.errors }}</p>
+    <p>{{ form.password.errors }}</p>
+    <p>{{ form.confirm_password.errors }}</p>
+    <form action="" method="POST">
+        {% csrf_token %}
+<!-- 
+        {{ data.as_p }}
+        <button>Submit</button> -->
+    <label for="">Full Name</label>
+    <!-- <input type="text" name="full_name" value=""> <br> -->
+     {{ data.full_name }} <br>
+
+    <label for="">Username</label>
+    <!-- <input type="text" name="username" value="{{ data.username }}"><br> -->
+     {{ data.username }}
+
+    <label for="">Email</label>
+    <!-- <input type="email" name="email" value="{{ data.email }}"><br> -->
+     {{ data.email }}
+
+    <label for="">Password</label>
+    <!-- <input type="password" name="password" value="{{ data.password }}"><br> -->
+     {{ data.password }}
+
+    <label for="">Confirm Password</label>
+    <input type="password" name="confirm_password"><br>
+
+    <button>Register</button>
+
+    </form>
+</body>
+</html>
