@@ -13,4 +13,8 @@ urlpatterns = [
     path("product/", views.product, name="product"),
     path("register_view/", views.register_view, name="register_view"),
     path("update_list/<int:jk>/", views.update_list, name="update_list"),
+    path("profile/", views.profile, name="profile"),
+    path("logout/", views.logout, name="logout"),
+    path("student/", views.StudentList.as_view(), name="student"),
+    path("student_details/<int:id>/",views.StudentDetail.as_view(), name="student_details")
 ]

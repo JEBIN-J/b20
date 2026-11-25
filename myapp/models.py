@@ -23,9 +23,15 @@ class ProductAdding(models.Model):
     price = models.FloatField()
     quantity = models.IntegerField()
     description = models.TextField(max_length=500)
-
 class RegisterViewModel(models.Model):
     full_name = models.CharField(max_length=50)
     username = models.CharField(max_length=30)
     email = models.EmailField()
     password = models.CharField(max_length=20)
+
+
+class Student(models.Model):
+    name = models.CharField(max_length=30)
+    email = models.EmailField()
+    age = models.IntegerField()
+    department = models.CharField(max_length=50)

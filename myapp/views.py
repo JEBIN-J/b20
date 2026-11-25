@@ -78,9 +78,19 @@ def login_view(request):
         name = request.POST.get("username")
         password = request.POST.get("password")
 
-        data = RegisterModel(username=name, password=password)
-        if data:
-            return redirect("dashboard")
+        data = RegisterModel.objects.filter(username=name).first()
+        if data and data.password == password:
+            request.session["username"]=data.username
+            request.session["fullname"]=data.full_name
+            request.session["email"]=data.email
+            request.session["user_id"]=data.id
+            print(request.session.items())
+
+            response = redirect("dashboard")
+            response.set_cookie("username", data.username, max_age=60, expires=True)
+            response.set_cookie("fullname", data.full_name, max_age=3600)
+            return response
+        
     return render(request, "login.html")
 
 def product(request):
@@ -124,3 +134,68 @@ def update_list(request, jk):
         form =UpdateForm(instance=user)
 
     return render(request, "update_list.html",{"data":form})
+
+def profile(request):
+    if not request.session.get("user_id"):
+        return redirect("login") 
+    user = RegisterModel.objects.get(id= request.session["user_id"])
+
+    return render(request, "profile.html", {"user":user})
+
+def logout(request):
+    response = redirect("login")
+    response.delete_cookie("username")
+    response.delete_cookie("fullname")
+    return response
+
+
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from . serializers import StudentSerializer
+from .models import Student
+from rest_framework import status
+
+class StudentList(APIView):
+    def post(self, request):
+        serializer = StudentSerializer(data= request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request):
+        student = Student.objects.all()
+        serializer = StudentSerializer(student, many=True)
+        return Response(serializer.data)
+
+class StudentDetail(APIView):
+    def get_object(self, id):
+        return get_object_or_404(Student, id=id)
+
+    def get(self, request, id):
+        stud = self.get_object(id)
+        serializer = StudentSerializer(stud)
+        return Response(serializer.data)
+
+    def put(self, request, id):
+        stud = self.get_object(id)
+        serializer = StudentSerializer(stud, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, id):
+        stud = self.get_object(id)
+        serializer = StudentSerializer(stud, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        stud = Student.objects.get(id=id)
+        stud.delete()
+        return Response({"message":"Student deleted"}, status=status.HTTP_200_OK)

@@ -12,12 +12,20 @@
     }
 </style>
 <body>
+    <a href="{% url 'logout' %}">Logout</a>
     <h1>Welcome to dashboard</h1>
+    <h1>{{ request.session.username }}</h1>
+    <h1>{{ request.session.fullname }}</h1>
+    <h1>{{ request.session.email }}</h1> 
+
+    <h3>{{ request.COOKIES.username }}</h3>
+    <h3>{{ request.COOKIES.fullname }}</h3>
     <!-- {% if data %}
         {% for i in data %}  
             <p>{{ i }}</p>
         {% endfor %}
     {% endif %} -->
+    <a href="{% url 'profile' %}">Profile</a>
     <table>
         <tr>
             <th>Profile Image</th>
